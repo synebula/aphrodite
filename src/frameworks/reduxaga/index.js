@@ -1,6 +1,6 @@
 import React from 'react';
 import invariant from 'invariant';
-import * as createHistory  from 'history';
+import * as createHistory from 'history';
 import {
   routerMiddleware,
   routerReducer as routing,

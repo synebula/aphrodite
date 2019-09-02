@@ -1,10 +1,11 @@
 import React from 'react';
-import styles from './index.less';
+import './index.less';
 import { Layout, Menu, Breadcrumb, Icon } from 'antd';
 import { connect } from 'react-redux';
 import logo from '@/public/logo.png';
 const { Header, Content, Footer, Sider } = Layout;
 const { SubMenu } = Menu;
+import settings from '@/settings';
 
 @connect(({ globle }) => ({
     globle: globle
@@ -40,7 +41,7 @@ export default class BackendLayout extends React.PureComponent {
                             <div className='img'>
                                 <img src={logo} alt="logo" />
                             </div>
-                            <h1>Venus</h1>
+                            <h1>{settings.title}</h1>
                         </a>
                     </div>
                     <Menu theme={theme.name} defaultSelectedKeys={['1']} mode="inline">
