@@ -104,23 +104,25 @@ module.exports = class RouterCreater {
     }
 
     create() {
-        let result = this.createRoutes();
+        const { hashHistory } = this.props;//是否使用hashHistory（默认BrowserHistory）
+        const router = hashHistory ? "HashRouter" : "BrowserRouter";
+        const result = this.createRoutes();
 
         return `
 import React from 'react';
 import dynamic from '@/frameworks/reduxaga/dynamic';
-import { BrowserRouter, Route, Redirect, Switch } from '@/frameworks/reduxaga/router';
+import { ${router}, Route, Redirect, Switch } from '@/frameworks/reduxaga/router';
 
 ${result.defines.join("")}
 ${result.nests.join("")}
 
 export default (props) =>
-    <BrowserRouter {...props}>
+    <${router} {...props}>
         <Switch>
 ${result.routes.join("")}
             <Redirect to='/404' />
         </Switch>
-    </BrowserRouter>
+    </${router}>
 `;
     }
 }
