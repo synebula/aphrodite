@@ -7,12 +7,12 @@ const RouterScanner = require("./routeScanner");
 module.exports = class LauncherPlugin {
     constructor(options) {
         this.options = options;
-        this.APP_PATH = options.APP_PATH;
+        this.path = options.path;
     }
 
     apply(compiler) {
         compiler.hooks.afterEnvironment.tap("LauncherPlugin", contextModuleFactory => {
-            const launcher = path.resolve(this.APP_PATH, '.launcher')
+            const launcher = path.resolve(this.path, '.launcher')
             if (!existsSync(launcher))
                 mkdirSync(launcher)
             this.writeIndex(`${launcher}/index.js`);
@@ -20,7 +20,7 @@ module.exports = class LauncherPlugin {
         });
     }
 
-    writeIndex(path) {
+    writeIndex(indexPath) {
         let content = `
 import React from 'react';
 import ReactDOM from "react-dom";
@@ -47,11 +47,11 @@ const LocalWrapper = () => {
     );
 }
 ReactDOM.render(<LocalWrapper />, document.getElementById("main"));`;
-        writeFileSync(path, `${content.trim()}\n`, 'utf-8');
+        writeFileSync(indexPath, `${content.trim()}\n`, 'utf-8');
     }
 
     writeModels() {
-        const modelPath = path.resolve(this.APP_PATH, 'models');
+        const modelPath = path.resolve(this.path, 'models');
         const models = glob.sync(modelPath + "/**/*.js");
         const result = models.map(m =>
             `app.model(require('${m}').default);
@@ -60,15 +60,15 @@ ReactDOM.render(<LocalWrapper />, document.getElementById("main"));`;
     }
 
     writeRouter(contentPath) {
-        const { rootUnest, createRouter } = this.options;//路由根节点是否允许嵌套, 是否根据扫描路径生成router文件
-        const root = path.resolve(this.APP_PATH, 'pages');
+        const { rootUnest, createRouter, hashHistory } = this.options;//路由根节点是否允许嵌套, 是否根据扫描路径生成router文件, 是否使用hashHistory（默认BrowserHistory）
+        const root = path.resolve(this.path, 'pages');
         let router = [];
-        let routerPath = this.APP_PATH + '/router.js'
+        let routerPath = this.path + '/router.js'
         if (existsSync(routerPath))//存在router文件直接读取文件否则按目录生成
             router = require(routerPath);
         else
             router = new RouterScanner({ root, rootUnest, routerPath: createRouter ? routerPath : "", defaultLayout: "layouts" }).scan();
-        let content = new RouteCreater({ router, rootUnest }).create();
+        let content = new RouteCreater({ router, rootUnest, hashHistory }).create();
         writeFileSync(contentPath, `${content.trim()}\n`, 'utf-8');
     }
 }

@@ -76,7 +76,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new LauncherPlugin({ APP_PATH }),
+    new LauncherPlugin({ path: APP_PATH, hashHistory: false }),//应用的路径，是否使用hashHistory（默认BrowserHistory）
     new HtmlWebpackPlugin({
       template: 'src/public/index.html',
       inject: 'body',
