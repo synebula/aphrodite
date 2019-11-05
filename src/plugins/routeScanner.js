@@ -5,7 +5,7 @@ module.exports = class RouteScanner {
     constructor(props) {
         this.props = props;
         this.router = [];
-        this.root = this.props.root;
+        this.root = this.props.root.split(path.sep).join("/");
         this.parent = path.dirname(this.root) + "/";//路由所在目录的上级目录。如src/pages的src
         this.name = this.root.replace(this.parent, "");//路由所在目录名称
     }
@@ -18,13 +18,13 @@ module.exports = class RouteScanner {
             let stat = statSync(file);
 
             if (stat.isDirectory()) {
-                let relativePath = file.replace(this.root, "");//获取相对目录
+                let relativePath = file.split(path.sep).join("/").replace(this.root, "");//获取相对目录
                 let newRoute = { path: relativePath, pages: [] };
                 route.pages.push(newRoute);
                 this.travel(file, newRoute);
             }
             if (stat.isFile() && file.endsWith("js")) {//只需要js文件后缀作为路由
-                let bareFile = file.replace(".js", "").replace("/index", "")//去掉后缀和index的文件路径
+                let bareFile = file.split(path.sep).join("/").replace(".js", "").replace("/index", "");//去掉后缀和index的文件路径
                 let relativePath = bareFile.replace(this.root, "");//获取相对目录
                 let componentPath = bareFile.replace(this.parent, "");
                 if (relativePath) { //相对路径不为空，说明不是根路径
