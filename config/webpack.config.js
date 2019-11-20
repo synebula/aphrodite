@@ -1,8 +1,8 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const LauncherPlugin = require('../src/plugins/launcher-webpack-plugin');
-const APP_PATH = path.resolve(__dirname, './src');
-const BIN_PATH = path.resolve(__dirname, './bin');
+const APP_PATH = path.resolve(__dirname, '../src');
+const BIN_PATH = path.resolve(__dirname, '../bin');
 
 module.exports = {
   entry: {
@@ -21,8 +21,8 @@ module.exports = {
     rules: [
       {
         test: /\.(js|jsx)$/,
-        use: "babel-loader",
         exclude: /node_modules/,
+        loader: "babel-loader",
         options: {
           presets: [
             "@babel/env",
