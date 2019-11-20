@@ -106,7 +106,7 @@ export default class BackendLayout extends React.PureComponent {
                         </Breadcrumb>
                         {children}
                     </Content>
-                    <Footer style={{ textAlign: 'center' }}>Venus UI Solution</Footer>
+                    <Footer style={{ textAlign: 'center' }}>Aphrodite UI Solution</Footer>
                 </Layout>
             </Layout>
         );

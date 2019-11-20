@@ -17,17 +17,17 @@
     "history": "^4.9.0",
     "invariant": "^2.2.4",
     "is-plain-object": "^3.0.0",
-    "path-to-regexp": "^3.0.0",
+    "path-to-regexp": "^6.0.0",
     "react": "^16.8.6",
     "react-container-query": "^0.11.0",
     "react-document-title": "^2.0.3",
     "react-dom": "^16.8.6",
     "react-fontawesome": "^1.6.1",
-    "react-intl": "^2.1.5",
+    "react-intl": "^3.6.1",
     "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
     "react-router-redux": "^4.0.8",
-    "react-transition-group": "^2.9.0",
+    "react-transition-group": "^4.3.0",
     "redux": "^4.0.4",
     "redux-saga": "^1.0.5"
   },
@@ -52,7 +52,7 @@
     "less-loader": "^5.0.0",
     "postcss-loader": "^3.0.0",
     "progress-bar-webpack-plugin": "^1.12.1",
-    "style-loader": "^0.23.1",
+    "style-loader": "^1.0.0",
     "url-loader": "^2.1.0",
     "webpack": "^4.38.0",
     "webpack-cli": "^3.3.6",
@@ -61,7 +61,7 @@
   },
   "scripts": {
     "test": "webpack-dev-server",
-    "build": "webpack -p --config ./webpack.pro.js",
-    "start": "webpack-dev-server --config ./webpack.dev.js "
+    "build": "webpack -p --config ./config/webpack.prod.js",
+    "start": "webpack-dev-server --config ./config/webpack.dev.js "
   }
 }
