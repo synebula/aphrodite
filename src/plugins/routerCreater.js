@@ -27,7 +27,7 @@ module.exports = class RouterCreater {
                         result.defines.push(`const Layout${layout.index} = require('@/${layout.component}').default; \n`);
                     }
                     //开始生成路由信息
-                    result.nests.push(`const Route${index} = () => <Layout${layout.index}>
+                    result.nests.push(`const Route${index} = (props) => <Layout${layout.index} props={props}>
     <Switch>${route.pages.map(page => `
         <Route exact path={'${page.path}'}
             component={dynamic({
@@ -112,10 +112,8 @@ module.exports = class RouterCreater {
 import React from 'react';
 import dynamic from '@/frameworks/reduxaga/dynamic';
 import { ${router}, Route, Redirect, Switch } from '@/frameworks/reduxaga/router';
-
 ${result.defines.join("")}
 ${result.nests.join("")}
-
 export default (props) =>
     <${router} {...props}>
         <Switch>
