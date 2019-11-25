@@ -27,7 +27,7 @@ module.exports = class RouterCreater {
                         result.defines.push(`const Layout${layout.index} = require('@/${layout.component}').default; \n`);
                     }
                     //开始生成路由信息
-                    result.nests.push(`const Route${index} = (props) => <Layout${layout.index} props={props}>
+                    result.nests.push(`const Route${index} = (props) => <Layout${layout.index} {...props}>
     <Switch>${route.pages.map(page => `
         <Route exact path={'${page.path}'}
             component={dynamic({
