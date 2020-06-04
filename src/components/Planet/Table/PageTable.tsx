@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react';
 import { StarTableProps } from '@/components/Stars/StarTable/interface';
-import { Dispatch } from 'umi';
 import StarTable from '@/components/Stars/StarTable';
 import { StarModelState } from '@/components/Stars/StarModel/interface';
 import { actions } from '@/components/Stars/utils/action';
@@ -9,7 +8,6 @@ export default (
   props: StarTableProps & {
     name: string;
     model: StarModelState;
-    dispatch: Dispatch;
     loading: boolean;
     onload?: () => void;
   },
@@ -24,6 +22,7 @@ export default (
     columns,
     loading,
     onload,
+    formate,
     ...rest
   } = props;
 

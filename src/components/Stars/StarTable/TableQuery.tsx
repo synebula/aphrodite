@@ -1,14 +1,12 @@
 import React from 'react';
 import { Button, Card, Col, Form, Row, Space } from 'antd';
-import { useIntl } from 'umi';
 import { Control } from '../StarControl';
 import StarForm from '../StarForm';
 import { StarFormField } from '../StarForm/interface';
 import { StarTableProps } from './interface';
 
 export default (props: StarTableProps) => {
-  const { formatMessage } = useIntl();
-  const { columns, queryStyle, onQueryClick: onQuery } = props;
+  const { columns, queryStyle, onQueryClick, format } = props;
 
   /**
    * 声明组件的默认样式
@@ -65,17 +63,17 @@ export default (props: StarTableProps) => {
             <Button
               type="primary"
               onClick={() => {
-                if (onQuery) onQuery(form.getFieldsValue());
+                if (onQueryClick) onQueryClick(form.getFieldsValue());
               }}
             >
-              {formatMessage({ id: 'query' })}
+              {format ? format({ id: 'query' }) : '查询'}
             </Button>
             <Button
               onClick={() => {
                 form.resetFields();
               }}
             >
-              {formatMessage({ id: 'reset' })}
+              {format ? format({ id: 'reset' }) : '重置'}
             </Button>
           </Space>
         </Col>

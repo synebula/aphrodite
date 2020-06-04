@@ -2,6 +2,7 @@ import { ColProps } from 'antd/lib/col';
 import { ColumnType, TableProps } from 'antd/lib/table';
 import { Control } from '../StarControl';
 import { StarFormField } from '../StarForm/interface';
+import { StarProps } from '../interface';
 
 export interface StarColumn extends ColumnType<any> {
   /**
@@ -56,7 +57,7 @@ export interface StarOperation extends StarColumn {
   remove?: boolean = true;
 }
 
-export interface StarTableProps extends TableProps<any> {
+export interface StarTableProps extends TableProps<any>, StarProps {
   /**
    * table列信息
    */

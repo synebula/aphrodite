@@ -1,7 +1,6 @@
 import { Modal } from 'antd';
 import Form from 'antd/es/form';
 import React from 'react';
-import { useIntl } from 'umi';
 import { Control } from '../StarControl';
 import StarForm from '../StarForm';
 import { StarFormField } from '../StarForm/interface';
@@ -16,8 +15,7 @@ export default (
     destroy?: () => void;
   },
 ) => {
-  const { formatMessage } = useIntl();
-  const { columns, show, mode, entity, close, destroy, onSaveClick } = props;
+  const { columns, show, mode, entity, close, destroy, onSaveClick, format } = props;
 
   const fields: StarFormField[] = [];
   columns.forEach((col) => {
@@ -44,7 +42,9 @@ export default (
 
   return (
     <Modal
-      title={formatMessage({ id: mode })}
+      title={
+        format ? format({ id: mode }) : mode == 'add' ? '增加' : mode == 'edit' ? '编辑' : '查看'
+      }
       visible={show}
       onOk={async () => {
         try {

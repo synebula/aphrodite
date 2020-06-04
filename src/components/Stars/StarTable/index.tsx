@@ -1,7 +1,6 @@
 import { DeleteOutlined, EditOutlined, EyeOutlined } from '@ant-design/icons';
 import { Popconfirm, Space, Table, Tooltip } from 'antd';
 import React, { useState } from 'react';
-import { useIntl } from 'umi';
 import { clone } from '../utils';
 import { StarColumn, StarOperation, StarTableProps } from './interface';
 import style from './style.less';
@@ -13,8 +12,7 @@ import TableToolbar from './TableToolbar';
  * 导出组件
  */
 export default (props: StarTableProps) => {
-  const { formatMessage } = useIntl();
-  const { columns, autoForm, pagination, onPageChanged, onAddClick, ...rest } = props;
+  const { columns, autoForm, pagination, format, onPageChanged, onAddClick, ...rest } = props;
   const [tableFormExist, setTableFormExist] = useState(false);
   const [tableFormShow, setTableFormShow] = useState(false);
   const [tableFormMode, setTableFormMode] = useState<'add' | 'edit' | 'view'>('add');
@@ -36,7 +34,7 @@ export default (props: StarTableProps) => {
       wrapper = {
         total: wrapper.total,
         showTotal: wrapper.total
-          ? (total) => formatMessage({ id: 'pagination.total' }, { total })
+          ? (total) => (format ? format({ id: 'pagination.total' }, { total }) : '')
           : undefined,
         showSizeChanger: true,
         onChange: (page, size) => {
@@ -71,7 +69,7 @@ export default (props: StarTableProps) => {
       //默认配置
       result = {
         dataIndex: 'id',
-        title: formatMessage({ id: 'operation' }),
+        title: format ? format({ id: 'operation' }) : '操作',
         align: 'center',
         width: '10%',
       };
@@ -94,7 +92,7 @@ export default (props: StarTableProps) => {
                     onViewClick && onViewClick(value, entity);
                   }}
                 >
-                  <Tooltip title={formatMessage({ id: 'view' })}>
+                  <Tooltip title={format ? format({ id: 'view' }) : '查看'}>
                     <EyeOutlined />
                   </Tooltip>
                 </a>
@@ -114,7 +112,7 @@ export default (props: StarTableProps) => {
                     onEditClick && onEditClick(value, entity);
                   }}
                 >
-                  <Tooltip title={formatMessage({ id: 'edit' })}>
+                  <Tooltip title={format ? format({ id: 'edit' }) : '编辑'}>
                     <EditOutlined />
                   </Tooltip>
                 </a>
@@ -126,10 +124,10 @@ export default (props: StarTableProps) => {
             (operation === true || remove) && (
               <a>
                 <Popconfirm
-                  title={formatMessage({ id: 'remove.confirm' })}
+                  title={format ? format({ id: 'remove.confirm' }) : '确认删除'}
                   onConfirm={() => onRemoveClick && onRemoveClick(value, record)}
                 >
-                  <Tooltip title={formatMessage({ id: 'remove' })}>
+                  <Tooltip title={format ? format({ id: 'remove' }) : '删除'}>
                     <DeleteOutlined />
                   </Tooltip>
                 </Popconfirm>
@@ -154,11 +152,12 @@ export default (props: StarTableProps) => {
 
   return (
     <div>
-      <TableQuery columns={columns} {...rest} />
+      <TableQuery format={format} columns={columns} {...rest} />
       <div className={style.container}>
         <TableToolbar
           className={style.toolbar}
           columns={columns}
+          format={format}
           onAddClick={() => {
             if (autoForm) {
               showTableForm('add');
@@ -181,6 +180,7 @@ export default (props: StarTableProps) => {
             entity={entity}
             columns={columns}
             show={tableFormShow}
+            format={format}
             close={() => {
               setTableFormShow(false);
             }}
